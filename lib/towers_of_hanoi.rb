@@ -46,45 +46,35 @@ class TowersOfHanoi
     @towers = [[3, 2, 1], [], []]
   end
 
-  def play
-    until won?
-    puts render
-    get_move
-  end
-    conclude
-  end
-
   def move(from_tower, to_tower)
-    disc = towers[from_tower].pop
-    towers[to_tower].push(disc)
+    x = towers[from_tower].pop
+    towers[to_tower].push(x)
   end
 
-  def get_move
-    print "Enter a move (from to): "
-    input = gets.chomp
-    from_tower, to_tower = input.split(" ").map(&:to_i)
-    until valid_move?(from_tower, to_tower)
-      from_tower, to_tower = get_valid_move
+  #
+  #
+  # def valid_move?(from_tower, to_tower)
+  #   x = towers[from_tower]
+  #   y = towers[to_tower]
+  #   if y == nil
+  #     true
+  #   elsif x == nil
+  #     false
+  #   else
+  #     x < y
+  #   end
+  # end
+
+  def won?
+    if ((@towers[2].length == 3) || @towers[1].length == 3)
+      true
+    else
+      false
     end
-      move(from_tower, to_tower)
   end
 
-
-  def get_valid_move
-    print "Please enter a valid move: "
-    input = gets.chomp
-    input.split(" ").map(&:to_i)# (some array ... 1 , 0 )
-  end
-
-
-  def render
-    top_row = towers.map { |tower| tower.length >= 3 ? tower[2] : " "}
-    mid_row = towers.map { |tower| tower.length >= 2 ? tower[1] : " "}
-    bot_row = towers.map { |tower| tower.length >= 1 ? tower[0] : " "}
-  "#{top_row.join(" ")}\n#{mid_row.join(" ")}\n#{bot_row.join(" ")}\n"
-  end
-
-
+#need to know
+  #
   def valid_move?(from_tower, to_tower)
     from = towers[from_tower]
     to = towers[to_tower]
@@ -97,15 +87,43 @@ class TowersOfHanoi
     end
   end
 
-  def won?
-    return true if (towers[1].length == 3 || towers[2].length == 3)
-    false
+  def get_move
+    print "Enter a move (from to) (ex. 0 1): "
+    input = gets.chomp
+    from_tower, to_tower = input.split(" ").map(&:to_i)
+    until valid_move?(from_tower, to_tower)
+      from_tower, to_tower = get_valid_move
+    end
+      move(from_tower, to_tower)
+  end
+
+
+  def get_valid_move
+    print "Please enter a valid move: "
+    input = gets.chomp
+    
+    input.split(" ").map(&:to_i)# (some array ... 1 , 0 )
+  end
+
+  def render
+    top_row = towers.map { |tower| tower.length >= 3 ? tower[2] : " "}
+    mid_row = towers.map { |tower| tower.length >= 2 ? tower[1] : " "}
+    bot_row = towers.map { |tower| tower.length >= 1 ? tower[0] : " "}
+  "#{top_row.join(" ")}\n#{mid_row.join(" ")}\n#{bot_row.join(" ")}\n"
   end
 
   def conclude
     puts "Congrats you won"
     puts render
   end
+
+  def play
+  until won?
+  puts render
+  get_move
+end
+  conclude
+end
 
 
 end
